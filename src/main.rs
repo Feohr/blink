@@ -1,20 +1,20 @@
 use std::time::Duration;
 
-const WIDTH: f32 = 24_f32;
-const HEIGHT: f32 = WIDTH * 3_f32;
+const HEIGHT: f32 = 24_f32;
+const WIDTH: f32 = HEIGHT * 3_f32;
 
 fn main() {
     let mut count = 0_f32;
     let mut inc_flag = true;
     // Origin
     // The origins affect their opposite axes
-    let (x_origin, y_origin) = ((WIDTH / 2_f32) + 2_f32, HEIGHT / 2_f32);
+    let (x_origin, y_origin) = ((HEIGHT / 2_f32) + 2_f32, WIDTH / 2_f32);
 
     // Minor axis
-    let radius2 = (HEIGHT / 2_f32) as f32;
+    let radius2 = (WIDTH / 2_f32) as f32;
 
     // Pupil
-    let radius3 = 8_f32;
+    let radius3 = WIDTH / 10_f32;
     let (x_iris_origin, y_iris_origin) = (x_origin, y_origin);
 
     loop {
@@ -29,7 +29,7 @@ fn main() {
 
         // This is for the max before we have to reverse the count
         // Adjusts the bounds for radius expansion
-        if count >= WIDTH / 2.7_f32 {
+        if count >= HEIGHT / 2.7_f32 {
             inc_flag = false;
         }
         if count <= 0_f32 {
@@ -40,10 +40,10 @@ fn main() {
         let radius1 = count as f32;
 
        // Draw screen
-        for x_point in 0..(WIDTH as usize) {
+        for x_point in 0..(HEIGHT as usize) {
             let mut is_next = true;
 
-            for y_point in 0..(HEIGHT as usize) {
+            for y_point in 0..(WIDTH as usize) {
                 let x_point = x_point as f32;
                 let y_point = y_point as f32;
 
@@ -59,7 +59,7 @@ fn main() {
                     let x_diff_sqr = x_diff * x_diff;
                     let y_diff_sqr = y_diff * y_diff;
 
-                    if x_diff_sqr + y_diff_sqr < radius3.powi(2) {
+                    if x_diff_sqr + (y_diff_sqr / 4_f32) <= radius3.powi(2) {
                         print!(" ");
                         continue
                     }
